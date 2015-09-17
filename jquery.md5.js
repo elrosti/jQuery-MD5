@@ -239,19 +239,25 @@
     * Take string arguments and return either raw or hex encoded strings
     */
     function raw_md5(s) {
-        return rstr_md5(str2rstr_utf8(s));
+        return rstr_md5(s);
     }
     function hex_md5(s) {
         return rstr2hex(raw_md5(s));
     }
     function raw_hmac_md5(k, d) {
-        return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d));
+        return rstr_hmac_md5(k, d);
     }
     function hex_hmac_md5(k, d) {
         return rstr2hex(raw_hmac_md5(k, d));
     }
     
-    $.md5 = function (string, key, raw) {
+    $.md5 = function (string, key, raw, noencode) {
+
+        if(!noencode){
+            string = str2rstr_utf8(string)
+            key = key == undefined ? key : str2rstr_utf8(key);
+        }
+
         if (!key) {
             if (!raw) {
                 return hex_md5(string);
